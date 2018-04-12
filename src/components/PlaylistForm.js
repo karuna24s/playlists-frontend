@@ -11,6 +11,7 @@ class PlaylistForm extends Component {
   }
 
   handleInput = (e) => {
+    this.props.resetNotification()
     this.setState({[e.target.name]: e.target.value})
   }
 
@@ -35,7 +36,7 @@ class PlaylistForm extends Component {
   render() {
     return (
       <div className="tile">
-        <form onBlur={this.handleBlur}>
+        <form onBlur={this.handleBlur} >
           <input className='input' type="text"
             name="title" placeholder='Enter a Title'
             value={this.state.title} onChange={this.handleInput} />

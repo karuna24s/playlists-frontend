@@ -3,13 +3,16 @@ import axios from 'axios'
 import Playlist from './Playlist'
 import PlaylistForm from './PlaylistForm'
 import update from 'immutability-helper'
+import Notification from './Notification'
 
 class PlaylistsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       playlists: [],
-      editingPlaylistId: null
+      editingPlaylistId: null,
+      notification: '',
+      transitionIn: true
     }
   }
 
@@ -50,9 +53,16 @@ class PlaylistsContainer extends Component {
     const playlists = update(this.state.playlists, {
       [playlistIndex]: { $set: playlist }
     })
-    this.setState({playlists: playlists})
+    this.setState({
+      playlists: playlists,
+      notification: 'All changes saved',
+      transitionIn: true
+    })
   }
 
+  resetNotification = () => {
+    this.setState({notification: '', transitionIn: false})
+  }
 
   render() {
     return (
@@ -61,11 +71,14 @@ class PlaylistsContainer extends Component {
           <button className="newPlaylistButton"  onClick={this.addNewPlaylist} >
             New Playlist
           </button>
+          <Notification in={this.state.transitionIn} notification= {this.state.notification} />
         </div>
         {this.state.playlists.map((playlist) => {
           if(this.state.editingPlaylistId === playlist.id) {
-            return(<PlaylistForm playlist={playlist} key={playlist.id} updatePlaylist={this.updatePlaylist}
-             />)
+            return(
+              <PlaylistForm playlist={playlist} key={playlist.id}
+               updatePlaylist={this.updatePlaylist}
+               resetNotification={this.resetNotification} />)
           } else {
             return (<Playlist playlist={playlist} key={playlist.id} />)
           }
