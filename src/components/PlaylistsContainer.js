@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Playlist from './Playlist'
+import PlaylistForm from './PlaylistForm'
 import update from 'immutability-helper'
 
 class PlaylistsContainer extends Component {
@@ -53,7 +54,11 @@ class PlaylistsContainer extends Component {
           </button>
         </div>
         {this.state.playlists.map((playlist) => {
-          return (<Playlist playlist={playlist} key={playlist.id} />)
+          if(this.state.editingPlaylistId === playlist.id) {
+            return(<PlaylistForm playlist={playlist} key={playlist.id} />)
+          } else {
+            return (<Playlist playlist={playlist} key={playlist.id} />)
+          }
         })}
       </div>
     );
