@@ -23,6 +23,11 @@ class PlaylistsContainer extends Component {
   render() {
     return (
       <div>
+        <div>
+          <button className="newPlaylistButton">
+            New Playlist
+          </button>
+        </div>
         {this.state.playlists.map((playlist) => {
           return(<Playlist playlist={playlist} key={playlist.id} />)
         })}
