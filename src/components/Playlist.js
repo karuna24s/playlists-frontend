@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const Playlist = ({playlist}) =>
-  <div className="tile" key={playlist.id}>
-    <h4>{playlist.title}</h4>
-    <p>{playlist.body}</p>
-  </div>
+class Playlist extends Component {
+
+  handleClick = () => {
+    this.props.onClick(this.props.playlist.id)
+  }
+
+  render () {
+    return(
+      <div className="tile">
+        <h4 onClick={this.handleClick}>
+          {this.props.playlist.title}
+        </h4>
+        <p onClick={this.handleClick}>
+          {this.props.playlist.body}
+        </p>
+      </div>
+    )
+  }
+}
 
 export default Playlist

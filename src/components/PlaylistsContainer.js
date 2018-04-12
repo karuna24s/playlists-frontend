@@ -64,6 +64,10 @@ class PlaylistsContainer extends Component {
     this.setState({notification: '', transitionIn: false})
   }
 
+  enableEditing = (id) => {
+    this.setState({editingPlaylistId: id}, () => { this.title.focus() })
+  }
+
   render() {
     return (
       <div>
@@ -80,7 +84,7 @@ class PlaylistsContainer extends Component {
                updatePlaylist={this.updatePlaylist}
                resetNotification={this.resetNotification} />)
           } else {
-            return (<Playlist playlist={playlist} key={playlist.id} />)
+            return (<Playlist playlist={playlist} key={playlist.id} onClick={this.enableEditing} />)
           }
         })}
       </div>
