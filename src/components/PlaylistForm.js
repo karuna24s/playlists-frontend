@@ -14,10 +14,28 @@ class PlaylistForm extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
+  handleBlur = () => {
+    const playlist = {
+      title: this.state.title,
+       body: this.state.body
+    }
+
+    axios.put(
+      `http://localhost:3001/api/v1/playlists/${this.props.playlist.id}`,
+      {
+        playlist: playlist
+      })
+    .then(response => {
+      console.log(response)
+      this.props.updatePlaylist(response.data)
+    })
+    .catch(error => console.log(error))
+  }
+
   render() {
     return (
       <div className="tile">
-        <form>
+        <form onBlur={this.handleBlur}>
           <input className='input' type="text"
             name="title" placeholder='Enter a Title'
             value={this.state.title} onChange={this.handleInput} />

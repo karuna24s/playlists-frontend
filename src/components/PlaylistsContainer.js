@@ -45,6 +45,15 @@ class PlaylistsContainer extends Component {
     .catch(error => console.log(error))
   }
 
+  updatePlaylist = (playlist) => {
+    const playlistIndex = this.state.playlists.findIndex(x => x.id === playlist.id)
+    const playlists = update(this.state.playlists, {
+      [playlistIndex]: { $set: playlist }
+    })
+    this.setState({playlists: playlists})
+  }
+
+
   render() {
     return (
       <div>
@@ -55,7 +64,8 @@ class PlaylistsContainer extends Component {
         </div>
         {this.state.playlists.map((playlist) => {
           if(this.state.editingPlaylistId === playlist.id) {
-            return(<PlaylistForm playlist={playlist} key={playlist.id} />)
+            return(<PlaylistForm playlist={playlist} key={playlist.id} updatePlaylist={this.updatePlaylist}
+             />)
           } else {
             return (<Playlist playlist={playlist} key={playlist.id} />)
           }
