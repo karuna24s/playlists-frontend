@@ -6,9 +6,14 @@ class Playlist extends Component {
     this.props.onClick(this.props.playlist.id)
   }
 
+  handleDelete = () => {
+    this.props.onDelete(this.props.playlist.id)
+  }
+
   render () {
     return(
       <div className="tile">
+          <span className="deleteButton" onClick={this.handleDelete}>x</span>
         <h4 onClick={this.handleClick}>
           {this.props.playlist.title}
         </h4>

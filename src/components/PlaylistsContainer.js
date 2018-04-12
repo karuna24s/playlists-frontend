@@ -12,14 +12,13 @@ class PlaylistsContainer extends Component {
       playlists: [],
       editingPlaylistId: null,
       notification: '',
-      transitionIn: true
+      transitionIn: false
     }
   }
 
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/playlists.json')
     .then(response => {
-      console.log(response)
       this.setState({playlists: response.data})
     })
     .catch(error => console.log(error))
@@ -36,7 +35,6 @@ class PlaylistsContainer extends Component {
       }
     )
     .then(response => {
-      console.log(response)
       const playlists = update(this.state.playlists, {
         $splice: [[0, 0, response.data]]
       })
@@ -60,6 +58,17 @@ class PlaylistsContainer extends Component {
     })
   }
 
+  deletePlaylist = (id) => {
+    axios.delete(`http://localhost:3001/api/v1/playlists/${id}`)
+    .then(response => {
+      const playlistIndex = this.state.playlists.findIndex(x => x.id === id)
+      const playlists = update(this.state.playlists, { $splice: [[playlistIndex, 1]]})
+      this.setState({playlists: playlists})
+    })
+    .catch(error => console.log(error))
+  }
+
+
   resetNotification = () => {
     this.setState({notification: '', transitionIn: false})
   }
@@ -82,14 +91,17 @@ class PlaylistsContainer extends Component {
             return(
               <PlaylistForm playlist={playlist} key={playlist.id}
                updatePlaylist={this.updatePlaylist}
+               titleRef= {input => this.title = input}
                resetNotification={this.resetNotification} />)
           } else {
-            return (<Playlist playlist={playlist} key={playlist.id} onClick={this.enableEditing} />)
+            return (
+              <Playlist playlist={playlist} key={playlist.id}
+              onClick={this.enableEditing}
+              onDelete={this.deletePlaylist} />)
           }
         })}
       </div>
     );
   }
 }
-
 export default PlaylistsContainer
