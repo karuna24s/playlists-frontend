@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Playlist from './Playlist'
 import axios from 'axios'
 
 class PlaylistsContainer extends Component {
@@ -23,12 +24,7 @@ class PlaylistsContainer extends Component {
     return (
       <div>
         {this.state.playlists.map((playlist) => {
-          return(
-            <div className="tile" key={playlist.id} >
-              <h4>{playlist.title}</h4>
-              <p>{playlist.body}</p>
-            </div>
-          )
+          return(<Playlist playlist={playlist} key={playlist.id} />)
         })}
       </div>
     )
